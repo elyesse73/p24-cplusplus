@@ -112,30 +112,39 @@
 #include <string>
 #include <cstdlib> // pour exit et rand
 
-int rows {5};
-int columns {7};
-int size {rows*columns};
-int random {};
-std::vector<char> tab(size,'.');
+int rows{5};
+int columns{7};
+int size{rows * columns};
+int apple_random{std::rand() % (size)};
+std::vector<char> tab(size, '.');
 std::vector<std::pair<int, int>> snake{{2, 2}, {2, 3}, {2, 4}};
 
-void reset_board() {
-    for (int i = 0;i <= tab.size();i++) {
-        char tab[i] = ".";
+void reset_board()
+{
+    for (int i = 0; i < size; i++)
+    {
+        tab[i] = '.';
     };
-}        // qui ré-initialise le board
-void generate_apple() {
-    int random = rand () % (rows*columns);
-    if (tab[random] != '.') {void generate_apple();};
-}     // qui génère une pomme
-void add_snake_to_board() {
-    tab[snake[0].first * columns + snake[0].second] = 'O';
-    for (int i = 1;i <= snake.size();i++) {
+} // qui ré-initialise le board
+void generate_apple()
+{
+    apple_random = std::rand() % (size);
+    if (tab[apple_random] != '.')
+    {
+        void generate_apple();
+    };
+} // qui génère une pomme
+void add_snake_to_board()
+{
+    tab[snake[snake.size() - 1].first * columns + snake[snake.size() - 1].second] = 'O';
+    for (int i = 0; i < snake.size() - 1; i++)
+    {
         tab[snake[i].first * columns + snake[i].second] = 'o';
     }
 } // qui met le serpent sur le board
-void add_apple_to_board() {
-    char tab[random] = "@";
+void add_apple_to_board()
+{
+    tab[apple_random] = '@';
 } // qui met la pomme sur le board
 
 void draw_board()
@@ -148,7 +157,7 @@ void draw_board()
     {
         for (int j = 0; j < columns; j++)
         {
-            std::cout << tab[i*columns + j];
+            std::cout << tab[i * columns + j];
         }
         std::cout << std::endl;
     }
@@ -184,6 +193,8 @@ void play_game()
         std::cin >> key; // on attend que l'utilisateur entre un caractère au clavier
         if (key)
         {
+            std::pair<int, int> ntete = {0, 0};
+            int n{snake.size() - 1};
             if ((key == 'i') or (key == 'k') or (key == 'j') or (key == 'l'))
             {
                 // on sait calculer la case dans laquelle la tête du serpent doit aller
@@ -191,9 +202,82 @@ void play_game()
                 //    si il se mange lui-même ou sort du board: on quitte le jeu
                 //    sinon on déplace le serpent
                 // et on recommence la boucle sans fin
-                if (key == 'i') {
-                    std::pair<int, int> ntete {snake[0].first-1, snake[0].second};
-                    snake.insert(snake.begin(), ntete);
+                if (key == 'i')
+                {
+                    ntete = {snake[n].first - 1, snake[n].second};
+                    if (snake[n].first - 1 < 0)
+                    {
+                        exit(2);
+                    }
+                    else if (tab[ntete.first * columns + ntete.second] == 'o')
+                    {
+                        exit(2);
+                    }
+                    else
+                    {
+                    }
+                }
+                if (key == 'k')
+                {
+                    ntete = {snake[n].first + 1, snake[n].second};
+                    if (snake[n].first + 1 >= rows)
+                    {
+                        exit(2);
+                    }
+                    else if (tab[ntete.first * columns + ntete.second] == 'o')
+                    {
+                        exit(2);
+                    }
+                    else
+                    {
+                    }
+                }
+                if (key == 'j')
+                {
+                    ntete = {snake[n].first, snake[n].second - 1};
+                    if (snake[n].second - 1 < 0)
+                    {
+                        exit(2);
+                    }
+                    else if (tab[ntete.first * columns + ntete.second] == 'o')
+                    {
+                        exit(2);
+                    }
+                    else
+                    {
+                    }
+                }
+                if (key == 'l')
+                {
+                    ntete = {snake[n].first, snake[n].second + 1};
+                    if (snake[n].second + 1 >= columns)
+                    {
+                        exit(2);
+                    }
+                    else if (tab[ntete.first * columns + ntete.second] == 'o')
+                    {
+                        exit(2);
+                    }
+                    else
+                    {
+                    }
+                }
+                snake.push_back(ntete);
+                if (tab[ntete.first * columns + ntete.second] == '@')
+                {
+                    void reset_board();
+                    void add_snake_to_board();
+                    void generate_apple();
+                    void add_apple_to_board();
+                    void draw_board();
+                }
+                else
+                {
+                    snake.erase(snake.begin());
+                    void reset_board();
+                    void add_snake_to_board();
+                    void add_apple_to_board();
+                    void draw_board();
                 }
             }
             else if (key == 'q')
