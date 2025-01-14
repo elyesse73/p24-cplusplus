@@ -4,12 +4,12 @@
 class Shape
 {
 private:
-    int x{};
-    int y{};
+    double x{};
+    double y{};
 
 public:
-    Shape(int u = 0, int v = 0) : x(u), y(v) {};
-    void move(int u, int v)
+    Shape(double u = 0, double v = 0) : x(u), y(v) {};
+    void move(double u, double v)
     {
         x = u;
         y = v;
@@ -20,23 +20,23 @@ class Circle : public Shape
 {
 private:
     Shape fig;
-    int radius;
+    double radius;
 
 public:
-    Circle(int u = 0, int v = 0, int r) : radius(r) { fig = Shape(u, v); };
-    float area() { return 3.14 * radius * radius; };
+    Circle(double u, double v, double r) : radius(r) { fig = Shape(u, v); };
+    double area() { return 3.14 * radius * radius; };
 };
 
 class Rectangle : public Shape
 {
 private:
     Shape fig;
-    int length;
-    int width;
+    double length;
+    double width;
 
 public:
-    Rectangle(int u = 0, int v = 0, int l, int w) : length(l), width(w) { fig = Shape(u, v); };
-    int area() { return length * width; };
+    Rectangle(double u, double v, double l, double w) : length(l), width(w) { fig = Shape(u, v); };
+    double area() { return length * width; };
 };
 
 int main()
