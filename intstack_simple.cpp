@@ -1,10 +1,12 @@
 #include <iostream>
 #include <cstdlib>
+#include "tmplstack.h"
 
 // constante entière pour la taille de la pile
 const int SIZE{12};
 
 // on définit un type de donnée (une classe) pour gérer une pile d'entier de taille 12 (SIZE)
+template <typename t, int size>
 class IntStack
 {
 public:
@@ -70,7 +72,7 @@ public:
     };
 
 private:
-    int T[SIZE]{};
+    t T[SIZE]{};
     int n{};
     // vos attributs pour représenter la pile d'entier
     // dans cette version toutes les piles sont de taille SIZE
@@ -86,7 +88,7 @@ private:
 
 int main()
 {
-    IntStack s1;
+    IntStack<int,SIZE> s1;
     s1.print(); // affichera [[
     s1.push(1);
     s1.push(2);

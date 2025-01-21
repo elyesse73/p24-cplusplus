@@ -118,16 +118,3 @@ void Toto::bar()
 // 3. faites la fonction qui permet d'afficher un objet de type IntStack directement avec <<<
 //    std::cout << s1;
 //    il faut redéfinir l'operator<< en appelant la méthode print
-
-int main()
-{
-    Toto::IntStack s1(12);
-    s1.print(); // affichera [[
-    s1.push(1);
-    s1.push(2);
-    s1.push(3);
-    s1.print();                         // affichera [1 2 3 ]
-    std::cout << s1.pop() << std::endl; // affichera 3
-    s1.print();                         // affichera [1 2 ]
-    return 0;
-}
